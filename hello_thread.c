@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <pthread.h>
+#include <stdio.h>
 
 void* helloThread(void* thread_value) {
 	printf("Hello Thread!\n");
@@ -12,4 +13,5 @@ int main() {
 	pthread_exit(NULL); /*this function is called after a thread has completed and no longer required.*/
 	return 0;
 }
+
 
