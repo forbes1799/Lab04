@@ -7,9 +7,9 @@ pthread_mutex_t myMutex;
 void* mutex_testing(void* param)
 {
     int i;
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < 1000000; i++) {
         counter++;
-        printf("thread %d counter = %d\n", (int)param, counter);
+        //printf("thread %d counter = %d\n", (int)param, counter);
     }
 }
 
@@ -20,8 +20,11 @@ int main()
     pthread_create(&thread1, 0, mutex_testing, (void*)one);
     pthread_create(&thread2, 0, mutex_testing, (void*)two);
     pthread_create(&thread3, 0, mutex_testing, (void*)three);
+
     pthread_join(thread1, 0);
     pthread_join(thread2, 0);
     pthread_join(thread3, 0);
+
+    printf("Final counter = %d (expected 3000000)\n", counter);
     return 0;
 }

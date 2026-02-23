@@ -7,10 +7,10 @@ pthread_mutex_t myMutex;
 void* mutex_testing(void* param)
 {
     int i;
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < 1000000; i++) {
         pthread_mutex_lock(&myMutex);/*lock..*/
         counter++;
-        printf("thread %d counter = %d\n", (int)param, counter);
+        //printf("thread %d counter = %d\n", (int)param, counter);
         pthread_mutex_unlock(&myMutex); /*unlock..*/
     }
 }
@@ -29,5 +29,8 @@ int main()
     pthread_join(thread3, 0);
 
     pthread_mutex_destroy(&myMutex);
+
+    printf("Final counter = %d (expected 3000000)\n", counter);
+
     return 0;
 }
