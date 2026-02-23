@@ -5,8 +5,8 @@
 #SBATCH -D ./
 #SBATCH --export=ALL
 
-module load compilers/intel/2019u5
-module load mpi/intel-mpi/2019u5/bin
+module load intel/oneapi-hpc-toolkit-2025.1.3.10 
+module load mpi/2021.15 
 
 procs=${SLURM_NTASKS:-1}
 cores=${SLURM_CPUS_PER_TASK:-1}
@@ -18,10 +18,13 @@ folds=10
 
 make all
 
+echo "Num_Threads = $OMP_NUM_THREADS"
+echo "Num_Procs = $procs"
+
 echo 
 echo
 echo =====RUNNING PROGRAMS=====
 
-mpirun -np $procs ./k-folds-complete-icc asteroids.csv "output_$k_$folds.csv" $k $folds
+mpirun -np $procs ./k-folds-complete-gcc asteroids.csv "output_$k_$folds.csv" $k $folds
 
 make clear

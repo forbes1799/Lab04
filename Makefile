@@ -14,8 +14,6 @@ op = -O3
 all: 
 	make gccnearly
 	make gcccomplete
-	make iccnearly
-	make icccomplete
 
 gccnearly: $(ser_target) $(file_reader_target)
 	gcc -fopenmp -std=c99 $(op) $(ser_target) $(file_reader_target) -o $(ser_out)-gcc -lm
@@ -23,17 +21,8 @@ gccnearly: $(ser_target) $(file_reader_target)
 gcccomplete: $(par_target) $(file_reader_target)
 	mpicc -fopenmp -std=c99 $(op) $(par_target) $(file_reader_target) -o $(par_out)-gcc -lm
 
-iccnearly: $(ser_target) $(file_reader_target)
-	icc -qopenmp -std=c99 $(op) $(ser_target) $(file_reader_target) -o $(ser_out)-icc
-
-icccomplete: $(par_target) $(file_reader_target)
-	mpiicc -qopenmp -std=c99 $(op) $(par_target) $(file_reader_target) -o $(par_out)-icc
-
 debug: ${par_target} $(file_reader_target)
 	mpicc -g -fopenmp -O0 -std=c99 $(par_target) $(file_reader_target) -o $(par_out)-db -lm
-
-iccompreport: $(par_target) $(file_reader_target)
-	icc -qopenmp -std=c99 $(op) $(par_target) $(file_reader_target) -o $(par_out)-icc -qopt-report3
 
 compare: $(compare_target) $(file_reader_target)
 	gcc -std=c99 $(op) $(compare_target) $(file_reader_target) -o compare -lm
@@ -44,5 +33,3 @@ comparedb: $(compare_target) $(file_reader_target)
 clear:
 	rm $(ser_out)-gcc
 	rm $(par_out)-gcc
-	rm $(ser_out)-icc
-	rm $(par_out)-icc
